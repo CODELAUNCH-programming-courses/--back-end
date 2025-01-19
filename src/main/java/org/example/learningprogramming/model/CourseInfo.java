@@ -2,6 +2,7 @@ package org.example.learningprogramming.model;
 
 import java.util.List;
 
+// інформація про курси
 public class CourseInfo {
     private Long id;
     private List<String> listOfItems;
