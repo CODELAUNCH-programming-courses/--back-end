@@ -1,5 +1,6 @@
 package org.example.learningprogramming.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -13,6 +14,7 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String description;
     private String subscriptionType;
@@ -21,10 +23,11 @@ public class Course {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Lesson> lessons;
 
     private List<String> instruments;
-    private int numberOfTasks;
+    private Integer numberOfTasks;
 
 
     public LocalDateTime getCreatedAt() {

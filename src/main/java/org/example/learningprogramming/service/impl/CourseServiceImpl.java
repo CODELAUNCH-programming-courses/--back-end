@@ -5,18 +5,24 @@ import org.example.learningprogramming.model.Course;
 import org.example.learningprogramming.repository.CourseRepository;
 import org.example.learningprogramming.repository.projection.course.*;
 import org.example.learningprogramming.service.CourseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
 @Primary
 public class CourseServiceImpl implements CourseService {
    private final CourseRepository repository;
+
+   @Autowired
+   public CourseServiceImpl(CourseRepository repository) {
+       this.repository = repository;
+   }
 
     @Override
     public List<CourseCardProjection> getAllCourseCards() {
@@ -33,4 +39,9 @@ public class CourseServiceImpl implements CourseService {
                 .limit(5) // Беремо лише перші 5
                 .collect(Collectors.toList());
     };
+
+    @Override
+    public Optional<Course> getCourseById(Long id) {
+        return repository.findById(id);
+    }
 }
