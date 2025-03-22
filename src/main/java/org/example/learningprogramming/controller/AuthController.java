@@ -1,6 +1,7 @@
 package org.example.learningprogramming.controller;
 
 import org.example.learningprogramming.model.User;
+import org.example.learningprogramming.model.dto.RegisterRequest;
 import org.example.learningprogramming.repository.UserRepository;
 import org.example.learningprogramming.utils.JwtResponse;
 import org.example.learningprogramming.utils.JwtUtil;
@@ -24,15 +25,16 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody User user) {
-
-
+    public ResponseEntity register(@RequestBody RegisterRequest registerRequest) {
         try {
-            // Кодуємо пароль
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            userRepository.save(user);
+            User user = new User();
+            user.setUserName(registerRequest.getUserName());
+            user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+            user.setEmail(registerRequest.getEmail());
 
             String jwt = jwtUtil.generateToken(user.getUserName());
+
+            userRepository.save(user);
 
             return ResponseEntity.ok(new JwtResponse(jwt));
         } catch (Exception e) {
@@ -41,13 +43,17 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/public/welcome")
-    public String publicEndpoint() {
-        return "This is a public endpoint. No authentication required!";
-    }
-
-    @GetMapping("/private/hello")
-    public String privateEndpoint() {
-        return "This is a protected endpoint. Authentication required!";
-    }
+    // Логін
+//    @PostMapping("/login")
+//    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+//        User user = userRepository.findByEmail(loginRequest.getEmail())
+//                .orElseThrow(() -> new RuntimeException("Error: User not found!"));
+//
+//        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+//            return ResponseEntity.badRequest().body("Error: Invalid password!");
+//        }
+//
+//        String token = jwtUtil.generateToken(user.getEmail());
+//        return ResponseEntity.ok(new JwtResponse(token));
+//    }
 }

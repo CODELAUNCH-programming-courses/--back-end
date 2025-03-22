@@ -2,21 +2,24 @@ package org.example.learningprogramming.utils;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
 
-    private String secretKey = "!2n1r&e1ad21@";
+    private static final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private static final long EXPIRATION_TIME = 864_000_000; // 10 днів
 
     // Метод для генерації JWT
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // Термін дії 1 година
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) // Термін дії 10 днів
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
