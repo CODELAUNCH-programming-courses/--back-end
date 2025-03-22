@@ -2,6 +2,7 @@ package org.example.learningprogramming.controller;
 
 import org.example.learningprogramming.model.User;
 import org.example.learningprogramming.model.dto.RegisterRequest;
+import org.example.learningprogramming.model.dto.ResponseMessage;
 import org.example.learningprogramming.repository.UserRepository;
 import org.example.learningprogramming.utils.JwtResponse;
 import org.example.learningprogramming.utils.JwtUtil;
@@ -25,7 +26,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody RegisterRequest registerRequest) {
+    public ResponseMessage register(@RequestBody RegisterRequest registerRequest) {
         try {
             User user = new User();
             user.setUserName(registerRequest.getUserName());
@@ -36,10 +37,12 @@ public class AuthController {
 
             userRepository.save(user);
 
-            return ResponseEntity.ok(new JwtResponse(jwt));
+//            ResponseEntity.ok(new JwtResponse(jwt));
+            return new ResponseMessage("User saved", new JwtResponse(jwt), "success");
         } catch (Exception e) {
             e.printStackTrace();  // Вивести деталі помилки
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            return new ResponseMessage("User not saved", ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials"), "fail");
+
         }
     }
 
