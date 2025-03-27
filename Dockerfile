@@ -1,14 +1,23 @@
-# Використовуємо базовий образ з JDK
-FROM openjdk:17-jdk-slim
+# Використовуємо базовий образ для Maven
+FROM maven:latest AS build
 
-# Вказуємо робочу директорію всередині контейнера
 WORKDIR /app
 
-# Копіюємо jar файл додатку в контейнер
-COPY target/learning-programming-0.0.1-SNAPSHOT.jar app.jar
+# Копіюємо файли для збірки
+COPY pom.xml /app
+RUN mvn dependency:resolve
+COPY . /app
 
-# Відкриваємо порт, на якому буде працювати ваш додаток (звичайно Spring Boot працює на порту 8080)
+# Збираємо проект і створюємо .jar файл
+RUN mvn clean
+RUN mvn package -DskipTests
+
+# Тепер використовуємо образ з JDK для запуску додатку
+FROM openjdk:17-jdk-slim AS final
+
+# Копіюємо зібраний .jar файл з попереднього кроку
+COPY --from=build /app/target/learning-programming-0.0.1-SNAPSHOT.jar app.jar
+
 EXPOSE 3004
 
-# Команда для запуску додатку при старті контейнера
 ENTRYPOINT ["java", "-jar", "app.jar"]

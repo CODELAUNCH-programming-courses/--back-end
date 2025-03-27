@@ -1,40 +1,15 @@
 package org.example.learningprogramming.model.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+@Data // Генерує геттери, сеттери, toString(), equals() та hashCode()
+@AllArgsConstructor // Генерує конструктор із усіма аргументами
+@NoArgsConstructor // Генерує безаргументний конструктор
 public class ResponseMessage {
     private String message;
     private Object data;
     private String status;
-
-    public ResponseMessage(String message, Object data, String status) {
-        this.message = message;
-        this.data = data;
-        this.status = status;
-    }
-
-    public ResponseMessage() {}
-
-
-    public String getMessage() {
-            return this.message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Object getData() {
-        return this.data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
-    }
-
-    public String getStatus() {
-        return this.status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

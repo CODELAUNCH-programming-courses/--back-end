@@ -32,8 +32,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Дозволити CORS
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/courses").permitAll()  // Відкриті маршрути
-                        .requestMatchers("/api/v1/auth/register").permitAll()  // Відкриті маршрути
+                        .requestMatchers("/api/v1/courses/**").permitAll()  // Відкриті маршрути
+                        .requestMatchers("/api/v1/user/**").permitAll()  // Відкриті маршрути
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll() // Доступ до Swagger без авторизації
                         .anyRequest().authenticated()  // Усі інші запити вимагають авторизації
                 );
@@ -56,7 +56,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*", "http://localhost:3004/swagger-ui/index.html")); // Дозволити всі джерела (або вкажіть конкретні, наприклад, "http://localhost:3000")
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173/", "http://localhost:3000/", "http://localhost:3004/swagger-ui/index.html")); // Дозволити всі джерела (або вкажіть конкретні, наприклад, "http://localhost:3000")
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Дозволити методи
         configuration.setAllowedHeaders(Arrays.asList("*")); // Дозволити всі заголовки
         configuration.setAllowCredentials(true); // Дозволити credentials (наприклад, cookies)
