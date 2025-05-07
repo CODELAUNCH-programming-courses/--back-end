@@ -34,14 +34,19 @@ public class CourseServiceImpl implements CourseService {
         List<CourseCardProjection> courseItems = repository.findAllBy();
 
         return courseItems.stream()
-                .filter(item -> item.getCreatedAt() != null) // Перевіряємо, щоб поле не було null
-                .sorted(Comparator.comparing(CourseCardProjection::getCreatedAt).reversed()) // Сортуємо по даті
-                .limit(5) // Беремо лише перші 5
+                .filter(item -> item.getCreatedAt() != null)
+                .sorted(Comparator.comparing(CourseCardProjection::getCreatedAt).reversed())
+                .limit(5)
                 .collect(Collectors.toList());
     };
 
     @Override
     public Optional<Course> getCourseById(Long id) {
         return repository.findById(id);
+    }
+
+    @Override
+    public List<CourseCardProjection> getCoursesByLevel(String levelName) {
+        return this.repository.findAllByLevel(levelName);
     }
 }

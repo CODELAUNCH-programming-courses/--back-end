@@ -1,8 +1,11 @@
 package org.example.learningprogramming.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.*;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "lesson")
 public class Lesson {
@@ -18,9 +21,5 @@ public class Lesson {
     @JoinColumn(name = "course_id", nullable = false)
     @JsonBackReference
     private Course course;
-
-    public int getDurationMinutes() {
-        return durationMinutes;
-    }
 }
 

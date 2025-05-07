@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "course_card")
+@Table(name = "course")
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,14 +21,15 @@ public class Course {
     private String level;
     private String imageUrl;
     private LocalDateTime createdAt;
+    private String videoUrl;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
     private List<Lesson> lessons;
 
+    @ElementCollection
+    @CollectionTable(name = "course_instruments", joinColumns = @JoinColumn(name = "course_id"))
+    @Column(name = "instrument")
     private List<String> instruments;
-    private Integer numberOfTasks;
-
 
     public LocalDateTime getCreatedAt() {
         return createdAt;

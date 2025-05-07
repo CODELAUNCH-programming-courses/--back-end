@@ -12,4 +12,5 @@ public interface CourseService {
     List<CourseCardProjection> getAllCourseCards();
     List<CourseCardProjection> getLatestCourseCards();
     Optional<Course> getCourseById(Long id);
+    List<CourseCardProjection> getCoursesByLevel(String levelName);
 }

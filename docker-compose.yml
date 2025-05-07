@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
@@ -44,6 +44,7 @@ services:
 
 volumes:
   postgres_data:
+    external: true
 
 networks:
   app-network:
