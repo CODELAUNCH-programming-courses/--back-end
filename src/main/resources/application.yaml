@@ -6,7 +6,7 @@ spring:
 #    DATABASE_PUBLIC_URL
 #    url: jdbc:postgresql://turntable.proxy.rlwy.net:15640/postgres
 #    DATABASE_URL
-    url: jdbc:postgresql://@postgres.railway.internal:5432/railway
+    url: jdbc:postgresql://postgres.railway.internal:5432/railway
     username: postgres
     password: dkKarLfDxDEQyoxFQrXXhbfnHmAfsUDm
     driver-class-name: org.postgresql.Driver
