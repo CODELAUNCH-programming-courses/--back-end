@@ -6,8 +6,7 @@ COPY pom.xml /app
 RUN mvn dependency:resolve
 COPY . /app
 
-RUN mvn clean
-RUN mvn package -DskipTests
+RUN mvn clean package -DskipTests
 
 COPY src/main/resources/static/images/ /static/images/
 
