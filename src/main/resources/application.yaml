@@ -19,8 +19,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
-server:
-  port: ${PORT:3004}
+
 springdoc:
   swagger-ui:
     enabled: true
