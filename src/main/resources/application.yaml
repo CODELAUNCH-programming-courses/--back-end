@@ -22,11 +22,9 @@ spring:
       hibernate:
         format_sql: true
 
-
 springdoc:
   swagger-ui:
     enabled: true
-
 
 testing:
   app:
@@ -34,4 +32,5 @@ testing:
     expirationMs: 60000
 
 server:
-  port: ${PORT}
+  port: ${PORT:8080}
+  address: 0.0.0.0
