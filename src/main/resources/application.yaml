@@ -1,9 +1,10 @@
 spring:
   datasource:
 #    url: jdbc:postgresql://host.docker.internal:5432/postgres
-    url: jdbc:postgresql://localhost:5432/postgres
+#    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://turntable.proxy.rlwy.net:15640/postgres
     username: postgres
-    password: 12345678
+    password: dkKarLfDxDEQyoxFQrXXhbfnHmAfsUDm
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
