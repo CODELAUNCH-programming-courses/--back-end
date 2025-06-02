@@ -28,11 +28,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Дозволити CORS
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/courses/**").permitAll()
                         .requestMatchers("/api/v1/courses/levels/**").permitAll()
+                        .requestMatchers("/api/v1/user").permitAll()
                         .requestMatchers("/api/v1/user/**").permitAll()
                         .requestMatchers("/api/v1/lessons/**").permitAll()
                         .requestMatchers("/images/**").permitAll()
@@ -57,7 +58,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173/", "http://localhost:3000/", "http://localhost:3004/swagger-ui/index.html")); // Дозволити всі джерела (або вкажіть конкретні, наприклад, "http://localhost:3000")
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Дозволити методи
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")); // Дозволити методи
         configuration.setAllowedHeaders(Arrays.asList("*")); // Дозволити всі заголовки
         configuration.setAllowCredentials(true); // Дозволити credentials (наприклад, cookies)
 

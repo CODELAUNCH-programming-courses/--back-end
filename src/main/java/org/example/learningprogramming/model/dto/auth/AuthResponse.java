@@ -18,5 +18,6 @@ public class AuthResponse {
         this.user.setId(user.getId());
         this.user.setEmail(user.getEmail());
         this.user.setUserName(user.getUserName());
+        this.user.setTariff(user.getTariff());
     }
 }
