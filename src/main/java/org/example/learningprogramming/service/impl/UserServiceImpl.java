@@ -1,5 +1,6 @@
 package org.example.learningprogramming.service.impl;
 
+import org.example.learningprogramming.model.Tariff;
 import org.example.learningprogramming.model.User;
 import org.example.learningprogramming.model.dto.ResponseMessage;
 import org.example.learningprogramming.model.dto.auth.AuthResponse;
@@ -73,7 +74,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOptional = this.userRepository.findById(userData.getId());
 
         if(userOptional.isEmpty()) {
-            return null;
+            throw new RuntimeException("User not found");
         }
 
         User userWithEmail = this.userRepository.findByEmail(userData.getEmail());
@@ -85,6 +86,19 @@ public class UserServiceImpl implements UserService {
 
         user.setEmail(userData.getEmail());
         user.setUserName(userData.getUsername());
+
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User setUserTariff(Long userId, Tariff tariff) {
+        Optional<User> userOptional = this.userRepository.findById(userId);
+        if(userOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found");
+        }
+
+        User user = userOptional.get();
+        user.setTariff(tariff);
 
         return userRepository.save(user);
     }

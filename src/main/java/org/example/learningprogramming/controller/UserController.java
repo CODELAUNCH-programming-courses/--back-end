@@ -1,18 +1,15 @@
 package org.example.learningprogramming.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.learningprogramming.model.Tariff;
 import org.example.learningprogramming.model.User;
 import org.example.learningprogramming.model.dto.auth.AuthRequest;
 import org.example.learningprogramming.model.dto.auth.AuthResponse;
 import org.example.learningprogramming.model.dto.ResponseMessage;
 import org.example.learningprogramming.model.dto.user.UpdateUserRequestDTO;
-import org.example.learningprogramming.repository.UserRepository;
 import org.example.learningprogramming.service.UserService;
-import org.example.learningprogramming.utils.JwtResponse;
-import org.example.learningprogramming.utils.JwtUtil;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -28,6 +25,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @Operation(summary = "Get all users")
     @GetMapping("/all")
     public ResponseEntity<ResponseMessage> getAllUsers() {
         try {
@@ -35,23 +33,25 @@ public class UserController {
 
         return ResponseEntity.ok(new ResponseMessage("Users retrieved", users));
         } catch(ResponseStatusException e) {
-            e.printStackTrace();  // Вивести деталі помилки
-            return ResponseEntity.status(e.getStatusCode()).body(new ResponseMessage("Internal server error", e.getReason()));
+            e.printStackTrace();
+            return ResponseEntity.status(e.getStatusCode()).body(new ResponseMessage(e.getReason(), null));
         }
     }
 
+    @Operation(summary = "User register")
     @PostMapping("/register")
     public ResponseEntity<ResponseMessage> userRegister(@RequestBody AuthRequest registerRequest) {
         try {
             AuthResponse authResponse = this.userService.userRegister(registerRequest.getEmail(), registerRequest.getPassword());
 
             return ResponseEntity.ok(new ResponseMessage("User saved", authResponse));
-        } catch (Exception e) {
+        } catch (ResponseStatusException e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseMessage("User not saved", e.getMessage()));
+            return ResponseEntity.status(e.getStatusCode()).body(new ResponseMessage(e.getReason(), null));
         }
     }
 
+    @Operation(summary = "User login")
     @PostMapping("/login")
     public ResponseEntity<ResponseMessage> userLogin(@RequestBody AuthRequest loginRequest) {
         try {
@@ -59,24 +59,36 @@ public class UserController {
 
             return ResponseEntity.ok(new ResponseMessage("User is logged in", authResponse));
         } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(new ResponseMessage("User is not logged in", e.getReason()));
+            e.printStackTrace();
+            return ResponseEntity.status(e.getStatusCode()).body(new ResponseMessage(e.getReason(), null));
         }
     }
 
-
+    @Operation(summary = "User update")
     @PatchMapping()
     public ResponseEntity<ResponseMessage> updateUser(@RequestBody UpdateUserRequestDTO updateRequestData) {
         try {
             User user = this.userService.updateUser(updateRequestData);
 
-            if(user == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseMessage("User not found", null));
-            }
-
             return ResponseEntity.ok(new ResponseMessage("User updated", user));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseMessage("User is not update", e.getMessage()));
+        } catch (ResponseStatusException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(new ResponseMessage(e.getReason(), null));
+        }
+    }
+
+    @Operation(summary = "Set user's tariff")
+    @PatchMapping("/{userId}/set-tariff")
+    public ResponseEntity<ResponseMessage> setUserTariff(@PathVariable Long userId, @RequestParam Tariff tariff) {
+        try {
+            User user = userService.setUserTariff(userId, tariff);
+
+            return ResponseEntity.ok(new ResponseMessage("User set tariff", user));
+        } catch (ResponseStatusException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(new ResponseMessage(e.getReason(), null));
         }
     }
 }

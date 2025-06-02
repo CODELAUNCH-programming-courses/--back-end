@@ -1,4 +1,4 @@
-package org.example.learningprogramming.model.dto;
+package org.example.learningprogramming.model.dto.lesson;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

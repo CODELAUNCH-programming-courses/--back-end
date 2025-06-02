@@ -1,15 +1,20 @@
 spring:
   datasource:
-#    url: jdbc:postgresql://host.docker.internal:5432/postgres
+    url: jdbc:postgresql://host.docker.internal:5432/postgres
+    username: postgres
+    password: 12345678
+
 #    url: jdbc:postgresql://localhost:5432/postgres
 
 #    DATABASE_PUBLIC_URL
 #    url: jdbc:postgresql://turntable.proxy.rlwy.net:15640/postgres
-#    DATABASE_URL
+#    username: postgres
+#    password: dkKarLfDxDEQyoxFQrXXhbfnHmAfsUDm
+    #    DATABASE_URL
 #    url: jdbc:postgresql://postgres.railway.internal:5432/postgres
-    url: jdbc:postgresql://${PROD_DB_HOST}:${PROD_DB_PORT}/${PROD_DB_NAME}
-    username: ${PROD_DB_USERNAME}
-    password: ${PROD_DB_PASSWORD}
+#    url: jdbc:postgresql://${PROD_DB_HOST}:${PROD_DB_PORT}/${PROD_DB_NAME}
+#    username: ${PROD_DB_USERNAME}
+#    password: ${PROD_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -32,5 +37,5 @@ testing:
     expirationMs: 60000
 
 server:
-  port: ${PORT:8080}
+  port: ${PORT:3004}
   address: 0.0.0.0

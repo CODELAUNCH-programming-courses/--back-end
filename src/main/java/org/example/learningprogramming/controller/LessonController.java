@@ -1,5 +1,6 @@
 package org.example.learningprogramming.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.learningprogramming.model.Lesson;
 import org.example.learningprogramming.model.dto.ResponseMessage;
@@ -24,6 +25,7 @@ public class LessonController {
         this.lessonService = lessonService;
     }
 
+    @Operation(summary = "Get lessons by course id")
     @GetMapping("/courses/{courseId}")
     public ResponseEntity<ResponseMessage> getLessonsByCourseId(@PathVariable Long courseId) {
         try {
@@ -40,6 +42,7 @@ public class LessonController {
         }
     }
 
+    @Operation(summary = "Get lesson by id")
     @GetMapping("/{lessonId}")
     public ResponseEntity<ResponseMessage> getLessonById(@PathVariable Long lessonId) {
         try {

@@ -2,11 +2,9 @@ package org.example.learningprogramming.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
-import org.apache.coyote.Response;
 import org.example.learningprogramming.model.Course;
-import org.example.learningprogramming.model.dto.CourseDTO;
-import org.example.learningprogramming.model.dto.LessonDTO;
+import org.example.learningprogramming.model.dto.course.CourseDTO;
+import org.example.learningprogramming.model.dto.lesson.LessonDTO;
 import org.example.learningprogramming.model.dto.ResponseMessage;
 import org.example.learningprogramming.repository.projection.course.CourseCardProjection;
 import org.example.learningprogramming.service.CourseService;
@@ -32,7 +30,7 @@ public class CourseController {
         this.service = service;
     }
 
-    @Operation(summary = "Дані про всі курси", description = "Отримання даних про всі курси")
+    @Operation(summary = "Get all courses")
     @GetMapping("/all")
     public ResponseEntity<ResponseMessage> getAllCourseCards() {
         try{
@@ -49,7 +47,7 @@ public class CourseController {
         }
     }
 
-    @Operation(summary = "Дані про всі останньо завантажені курси", description = "Отримання даних про всіх останніх курсів")
+    @Operation(summary = "Get latest courses")
     @GetMapping("/latest")
     public ResponseEntity<ResponseMessage> getLatestCourseCards() {
         try {
@@ -66,7 +64,7 @@ public class CourseController {
         }
     }
 
-    @Operation(summary = "Дані про курс", description = "Отримання даних про курс")
+    @Operation(summary = "Get course")
     @GetMapping("/{id}")
     public ResponseEntity<ResponseMessage> getCourseById(@PathVariable Long id) {
         try {
@@ -95,12 +93,12 @@ public class CourseController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseMessage("Courses not found", null));
 
         } catch(Exception e) {
-            e.printStackTrace();  // Вивести деталі помилки
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseMessage("Courses not retrieved", null));
         }
     }
 
-    @Operation(summary = "Дані про курси за важкістю", description = "Отримання даних про курси")
+    @Operation(summary = "Get courses by level")
     @GetMapping("/levels/{levelName}")
     public ResponseEntity<ResponseMessage> getCoursesByLevel(@PathVariable String levelName) {
         try {

@@ -31,15 +31,14 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Дозволити CORS
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/courses/**").permitAll()  // Відкриті маршрути
-                        .requestMatchers("/api/v1/courses/levels/**").permitAll()  // Відкриті маршрути
-                        .requestMatchers("/api/v1/user/**").permitAll()  // Відкриті маршрути
-                        .requestMatchers("/api/v1/lessons/**").permitAll()  // Відкриті маршрути
-                        .requestMatchers("/images/**").permitAll()  // Відкриті маршрути
-                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll() // Доступ до Swagger без авторизації
-                        .anyRequest().authenticated()  // Усі інші запити вимагають авторизації
+                        .requestMatchers("/api/v1/courses/**").permitAll()
+                        .requestMatchers("/api/v1/courses/levels/**").permitAll()
+                        .requestMatchers("/api/v1/user/**").permitAll()
+                        .requestMatchers("/api/v1/lessons/**").permitAll()
+                        .requestMatchers("/images/**").permitAll()
+                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
+                        .anyRequest().authenticated()
                 );
-//                .httpBasic(Customizer.withDefaults()); // Використовуємо Basic Auth
 
         return http.build();
     }
@@ -53,7 +52,6 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

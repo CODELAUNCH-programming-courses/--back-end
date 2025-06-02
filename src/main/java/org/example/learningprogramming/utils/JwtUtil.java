@@ -12,19 +12,17 @@ import java.util.Date;
 public class JwtUtil {
 
     private static final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private static final long EXPIRATION_TIME = 864_000_000; // 10 днів
+    private static final long EXPIRATION_TIME = 864_000_000;
 
-    // Метод для генерації JWT
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) // Термін дії 10 днів
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
-    // Метод для отримання username з токену
     public String extractUsername(String token) {
         return Jwts.parser()
                 .setSigningKey(secretKey)
@@ -33,7 +31,6 @@ public class JwtUtil {
                 .getSubject();
     }
 
-    // Метод для перевірки токену
     public boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
